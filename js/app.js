@@ -1,5 +1,3 @@
-var currentSlide = 0;
-
 $(document).foundation()
 
 $(document).ready(function() {
@@ -57,15 +55,15 @@ $(document).ready(function() {
     $('.next-service-clear').on('click', function(e) {
         var doorid = $('.popup-main').attr('data-door-id');
         var statusid = 1;
-        console.log('clear');
         postDoorStatus(doorid, statusid);
     });
 
-    $('svg').find('.bathroom').on('click', function() {        
+    $('body').find('.pop-action').on('click', function() {        
         if(event.ctrlKey) { $('body').addClass('admin'); }
-        var id = $(this).attr('id');
-        $('#' + id + '_modal').foundation('open');
-    });    
+        var doorid = $(this).attr('data-door-id');
+        document.getElementById('popup-main').setAttribute('data-door-id',doorid);
+        $('.popup-main').foundation('open');
+    });
 });
 
 setInterval(function() {
@@ -74,7 +72,6 @@ setInterval(function() {
 
 function postDoorStatus(doorid, statusid) {
     var postdoorstatus = $.post( "http://svhack.yetilair.com/endpoints/?action=setDoorStatus&id="+ doorid +"&status="+ statusid, function() {
-      console.log('success, update ui?');
     })
     .fail(function() {
         console.log('uh oh');
@@ -85,7 +82,6 @@ function getCurrentBuildingState() {
     $.get('http://svhack.yetilair.com/endpoints/?action=getCurrentBuildingState&ids=1,2?' + Math.random(), function(data) {
         //Pull in buildings
         data.forEach(function(building) {
-            console.log('building', building);
             var buildingId = building.id;
             var doors = building.doors;
             // $('.occupied').removeClass('occupied');
@@ -106,7 +102,6 @@ function updateBathrooms(doors, building) {
             // console.log($('#'+bathroomId).hasClass('occupied'));
 
             if(!$('#'+bathroomId).hasClass('occupied')) {
-                console.log('sound outter condition');
                 playDoorSound();
             }
             document.querySelector('#bathroom_' + buildingId + '_' + door.id).classList.add('occupied');
@@ -126,65 +121,25 @@ function updateBathrooms(doors, building) {
 // Called when the Modal is opened, get the room detail information and display it, assign button action/reference id(s)
 function updateModalDetail($element) {
     var doorid = $element.attr('data-door-id');
-    // document.getElementById('popup-main').setAttribute('data-door-id',doorid);
-    var nextservice = window.requestCountEstimate(doorid);
-    console.log(nextservice);
+    var poproot = $('[data-door-id="' + doorid + '"]');
+    var nextservice = 'NA';
 
+    try {
+        nextservice = window.requestCountEstimate(doorid);
+    }
+    catch(err) {
+        // uh oh, rob did you let alexander help u?
+    }
+    
     $.get('http://svhack.yetilair.com/endpoints/?action=getDoorDetails&id=' + doorid, function(data) {
-        var template = '<div id="popup-main" data-door-id>' +
-            '<div class="row">' +
-                '<div class="title">' + data.label + '</div>' +
-                '<div class="description">' + data.description + '</div>' +
-            '</div>' +
-            '<div class="row action-items">' +
-                '<div class="columns large-4 small-4">' +                    
-                    '<a href="#" class="button-action" data-action-id="clean" data-status-id="2">' +
-                        '<div class="next-service">' + nextservice + '</div>' +
-                        '<div class="next-service-clear">x</div>' +  
-                        '<img src="./images/icon_cleaning.png" alt="need cleaning">' +
-                    '</a>' +
-                '</div>' +
-                '<div class="columns large-4 small-4">' +
-                    '<a href="#" class="button-action" data-action-id="supplies" data-status-id="3">' +
-                        '<img src="./images/icon_supplies.png" alt="need supplies">' +
-                    '</a>' +
-                '</div>' +
-                '<div class="columns large-4 small-4">' +
-                    '<a href="#" class="button-action" data-action-id="favorite" data-status-id="0">' +
-                        '<img src="./images/icon_favorite.png" alt="favorite">' +
-                    '</a>' +
-                '</div>' +
-            '</div>' +
-            '<div class="row extras">' +
-                '<div class="columns large-4 small-4">' +
-                    '<div class="wrapper" data-view-1>' +
-                        '<span>Times Used</span>' +
-                        '<div data-target>' + data.times_used + '</div>' +
-                        '<div>times</div>' +
-                    '</div>' +
-                '</div>' +
-                '<div class="columns large-4 small-4">' +
-                    '<div class="wrapper" data-view-2>' +
-                        '<span>Average Time Taken</span>' +
-                        '<div data-target>' + data.average_time_taken + '</div>' +
-                        '<div>seconds</div>' +
-                    '</div>' +
-                '</div>' +
-                '<div class="columns large-4 small-4">' +
-                    '<div class="wrapper" data-view-3>' +
-                        '<span>Last Used</span>' +
-                        '<div data-target>' + data.last_used + '</div>' +
-                        '<div>Mins. ago</div>' +
-                    '</div>' +
-                '</div>' +
-            '</div>' +
-        '</div>';
-
-        $element.html(template);
-    });    
+        poproot.find('.title').html(data.label);
+        poproot.find('.description').html(data.description);
+        poproot.find('.next-service').html(nextservice);
+        poproot.find('[data-view-1] [data-target]').html(data.times_used);
+        poproot.find('[data-view-2] [data-target]').html(data.average_time_taken);
+        poproot.find('[data-view-3] [data-target]').html(data.last_used);
+    });
 }
-//http://svhack.yetilair.com/endpoints/?action=getDoorDetails&id=1
-//updateModalDetail(2);
 
 function playDoorSound() {
     var myaudio = document.getElementById('audio');
