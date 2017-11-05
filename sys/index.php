@@ -11,7 +11,9 @@
 		,'POST' => $_POST
 	);
 
+	$dev_mode = true;
+
 	//start the system
-	$system = new noqueue($request);
+	$system = new noqueue($dev_mode, $request);
 	echo $system->getReturn();
 ?>
