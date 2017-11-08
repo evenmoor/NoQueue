@@ -57,7 +57,6 @@
 											VALUES("'.$this->db_connection->clean($this->sensor_id).'"
 													,"'.$this->db_connection->clean($this->request['status']).'")';
 						$status_query = $this->db_connection->query($status_query);
-						print_r($status_query);
 					break;
 
 					case 'setState'://sets a state for a sensor
