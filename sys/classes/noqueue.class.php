@@ -11,7 +11,7 @@
 		private $formats = array(
 			'timestamp' => 'Y-m-d H:i:s'
 		);
-		private $valid_request_keys = array('method', 'id', 'key', 'request');//list of valid keys which make up a request
+		private $valid_request_keys = array('method', 'id', 'key', 'request', 'state', 'status');//list of valid keys which make up a request
 
 		// return variables
 		private $return_string; //holds the return data
@@ -61,8 +61,15 @@
 					return json_encode($this->return_string);
 				break;//JSON formatting
 
-				default://no formatting
+				case 'PLAINTEXT':
+					header('Content-Type: text/plain');
 					return $this->return_string;
+				break;//plain text
+
+				default://no formatting
+					header('Content-Type: text/html');
+					return $this->return_string;
+				break;
 			}//end return type 
 		}//end formatReturn
 
