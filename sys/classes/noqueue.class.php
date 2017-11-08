@@ -43,7 +43,12 @@
 					break;//sensor
 
 					case 'site': // site methods
-						echo "<h2>Site Method</h2>";
+						$this->return_type = 'json';
+
+						require_once('site.class.php');
+						$site = new site($this->request, $this->db_connection);
+
+						$this->return_string = $sensor->executeRequest();
 					break;
 
 					case 'machine': //machine learning methods
