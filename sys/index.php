@@ -11,7 +11,7 @@
 		,'POST' => $_POST
 	);
 
-	$dev_mode = true;
+	$dev_mode = false;
 
 	//start the system
 	$system = new noqueue($dev_mode, $request);

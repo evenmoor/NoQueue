@@ -113,7 +113,7 @@
 			//generic class
 			require_once('db_handler.class.php');
 			//db specific class
-			require_once('/db_types/'.$db_handler.'.class.php');
+			require_once('db_types/'.$db_handler.'.class.php');
 
 			$this->db_connection = new $db_handler($db_config);
 		}//end connectDatabase
