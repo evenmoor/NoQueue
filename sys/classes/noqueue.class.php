@@ -48,7 +48,7 @@
 						require_once('site.class.php');
 						$site = new site($this->request, $this->db_connection);
 
-						$this->return_string = $sensor->executeRequest();
+						$this->return_string = $site->executeRequest();
 					break;
 
 					case 'machine': //machine learning methods
