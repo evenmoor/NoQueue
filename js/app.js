@@ -106,13 +106,13 @@ $(function(){
 			rtn.sensors.forEach(function(sensor){
 				var currentDoor = $('[data-door-id="' + sensor.id + '"]');
 				var currentDoorSlider = document.querySelector('#bathroom_' + buildingid + '_' + sensor.id);
-				if(sensor.state == OCCUPIED && !currentDoor.find('.status').hasClass('occupied')) {
+				if(sensor.state == OCCUPIED && !currentDoor.hasClass('occupied')) {
 					// Update to active
 					currentDoorSlider.classList.add('occupied');
 					currentDoor.addClass('occupied');
-				} else if(sensor.state != OCCUPIED && currentDoor.find('.status').hasClass('occupied')){
+				} else if(sensor.state != OCCUPIED && currentDoor.hasClass('occupied')){
 					// Update to inactive			
-		            currentDoorSlider.classList.removeClass('occupied');
+		            currentDoorSlider.classList.remove('occupied');
 					currentDoor.removeClass('occupied');
 		        }
 			});
