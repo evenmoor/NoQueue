@@ -74,15 +74,16 @@
 				break;//end getSensorState
 
 				case 'getBuildingSensorData': //get the current data of sensors in a building
-					$return_array = array('sensors' => array());
+					$return_array = array('sensors' => array());				
 
-					$sensor_query = 'SELECT sl.sensor_state_log_sensor_fk
-										,sl.sensor_state_log_state_fk
-										,max(sl.sensor_state_log_id)
+					$sensor_query = 'SELECT distinct(sl.sensor_state_log_sensor_fk), sl.sensor_state_log_state_fk
 									FROM tbl_sensors s
-										INNER JOIN tbl_sensor_state_log sl ON s.sensor_id = sl.sensor_state_log_sensor_fk
-									WHERE s.sensor_building_fk = "'.$this->db_connection->clean($this->request['id']).'"';
-					$sensor_query = $this->db_connection->query($sensor_query);
+									INNER JOIN tbl_sensor_state_log AS sl
+									WHERE s.sensor_building_fk = "'.$this->db_connection->clean($this->request['id']).'"
+									AND sl.sensor_state_log_id = (SELECT MAX(sensor_state_log_id)
+				                    FROM tbl_sensor_state_log as i
+				                    WHERE i.sensor_state_log_sensor_fk = sl.sensor_state_log_sensor_fk)';  
+				    $sensor_query = $this->db_connection->query($sensor_query);
 
 					foreach($sensor_query as $sensor){//parse the list of sensors
 						$sensor_array = array(
