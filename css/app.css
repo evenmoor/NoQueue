@@ -105,6 +105,19 @@ a { color: #00a4ef; }
 }
 
 /* Bathroom List */
+.bathroom-list .accordion-item { position: relative; }
+.bathroom-list .accordion-item .favorite-building { 
+    position: absolute;
+    right: 40px;
+    top: 20px;
+    color: #FFF;
+    background: grey;
+    border-radius: 5px;
+    padding: 5px;
+    font-size: 12px;
+    z-index: 1;
+}
+.bathroom-list .accordion-item .favorite-building.favorite { opacity: .1; }
 .bathroom-list .accordion-item.is-active .accordion-title { background-color: #e6e6e6; }
 .bathroom-list .accordion-item .accordion-title {
     color: #000;
@@ -184,6 +197,17 @@ a { color: #00a4ef; }
 
 body.admin .next-service { display: inline-block; }
 body.admin .next-service-clear { display: inline-block; }
+.slide-wrapper { position: relative; }
+.last-updated { 
+    position: absolute;
+    left: 20px;
+    top: 10px;
+    font-size: 10px;
+    text-align: center;
+    z-index: 1;
+    color: #000; 
+}
+.last-updated > div { font-weight: bold; }
 
 .button-action {
     display: block;

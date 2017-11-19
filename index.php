@@ -9,6 +9,7 @@
 	<link rel="stylesheet" type="text/css" href="./js/slick/slick-theme.css"/>
 	<link rel="stylesheet" type="text/css" href="./js/slick/slick.css"/>
 	<link rel="stylesheet" href="./css/app.css">
+	<link rel="stylesheet" href="./js/iziModal/iziModal.min.css">	
 	<link rel="shortcut icon" href="./images/favicon.ico" type="image/x-icon">
 	<link rel="icon" href="./images/favicon.ico" type="image/x-icon">
 	<!-- <script src="./js/synaptic.js"></script> -->
@@ -34,7 +35,8 @@
 
 	<!-- Start Slider -->
 	<div class="row">
-		<div class="columns large-12">
+		<div class="columns large-12 slide-wrapper">
+			<div class="last-updated">Last Updated <div class="time"></div></div>
 			<div class="slick-slider" data-building-slider></div><!--/slider-->
 		</div>
 	</div>
@@ -89,14 +91,14 @@
 			<div class="wrapper" data-view-1>
 				<span>used</span>
 				<div data-target></div>
-				<div>times</div>
+				<div>total</div>
 			</div>
 		</div>
 		<div class="columns large-4 small-4">
 			<div class="wrapper" data-view-2>
-				<span>average</span>
+				<span>used</span>
 				<div data-target></div>
-				<div>seconds</div>
+				<div>today</div>
 			</div>
 		</div>
 		<div class="columns large-4 small-4">

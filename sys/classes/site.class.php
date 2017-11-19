@@ -27,12 +27,11 @@
 						);
 
 						$sensor_query = 'SELECT s.sensor_id
-												,s.sensor_name
-												,max(st.sensor_state_log_id)
-												,st.sensor_state_log_state_fk
-											FROM tbl_sensors s
-												INNER JOIN tbl_sensor_state_log st ON s.sensor_id = st.sensor_state_log_sensor_fk
-											WHERE sensor_building_fk = "'.$this->db_connection->clean($building['building_id']).'"';
+						,s.sensor_name
+						FROM tbl_sensors s
+						INNER JOIN tbl_sensor_state_log st ON s.sensor_id = st.sensor_state_log_sensor_fk
+						WHERE sensor_building_fk = "'.$this->db_connection->clean($building['building_id']).'"
+						group by sensor_id';
 						$sensor_query = $this->db_connection->query($sensor_query);
 
 						foreach($sensor_query as $sensor){//parse sensors
@@ -71,7 +70,39 @@
 					array_push($return_array['sensors'], $sensor_array);
 
 					return $return_array;
-				break;//end getSensorState
+				break;//end getSensorData
+
+				case 'getSensorDetail': //get the current details data of a single sensor
+					$return_array = array('sensors' => array());
+
+					$sensor_query = 'SELECT s.sensor_name, s.sensor_description,
+					(SELECT ABS(TIMESTAMPDIFF(SECOND, NOW(), sensor_state_log_timestamp))
+					from tbl_sensor_state_log WHERE sensor_state_log_sensor_fk = s.sensor_id
+					AND sensor_state_log_state_fk = 0
+					ORDER BY sensor_state_log_id desc limit 1) AS lastusedseconds,
+					(SELECT count(sensor_state_log_id)
+					FROM tbl_sensor_state_log WHERE sensor_state_log_sensor_fk = s.sensor_id
+					AND sensor_state_log_state_fk = 1 AND DATE(sensor_state_log_timestamp) = CURDATE()) as totalusedtoday,
+					(SELECT count(sensor_state_log_id)
+					FROM tbl_sensor_state_log WHERE sensor_state_log_sensor_fk = s.sensor_id
+					AND sensor_state_log_state_fk = 1) AS totalusedall
+					FROM tbl_sensors AS s
+					WHERE sensor_id = "'.$this->db_connection->clean($this->request['id']).'"';
+								
+					$sensor_query = $this->db_connection->query($sensor_query);
+					$sensor_query = $sensor_query[0];
+					$sensor_array = array(
+						'label' => $sensor_query['sensor_name']
+						,'description' => $sensor_query['sensor_description']
+						,'lastusedseconds' => $sensor_query['lastusedseconds']
+						,'totalusedtoday' => $sensor_query['totalusedtoday']
+						,'totalusedall' => $sensor_query['totalusedall']
+					);
+
+					array_push($return_array['sensors'], $sensor_array);
+
+					return $return_array;
+				break;//end getSensorDetail
 
 				case 'getBuildingSensorData': //get the current data of sensors in a building
 					$return_array = array('sensors' => array());				
