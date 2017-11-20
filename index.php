@@ -28,14 +28,14 @@
 			</div><!--/top-bar-left-->
 			
 			<div class="top-bar-right">	
+				<div class="last-updated">Last Updated <div class="time"></div></div>
 			</div><!--/top-bar-right-->
 		</div><!--/top-bar-inner-->
 	</div><!--/top-bar-->
 
 	<!-- Start Slider -->
 	<div class="row">
-		<div class="columns large-12 slide-wrapper">
-			<div class="last-updated">Last Updated <div class="time"></div></div>
+		<div class="columns large-12 slide-wrapper">			
 			<div class="slick-slider" data-building-slider></div><!--/slider-->
 		</div>
 	</div>

@@ -210,8 +210,8 @@ body.admin .next-service-clear { display: inline-block; }
 .slide-wrapper { position: relative; }
 .last-updated { 
     position: absolute;
-    left: 20px;
-    top: 10px;
+    right: 20px;
+    top: 20px;
     font-size: 10px;
     text-align: center;
     z-index: 1;
@@ -307,4 +307,7 @@ body.admin .next-service-clear { display: inline-block; }
     .popup-main .extras { font-size: 1.0rem; }
     .popup-main .extras .wrapper div { font-size: 1.4rem; }
     .popup-main .extras .wrapper div:last-child { font-size: 1.0rem; }
+
+    .bathroom-list .accordion-item .accordion-title { font-size: 12px; }
+    .bathroom-list .bathroom-label { font-size: 12px; }
 }
