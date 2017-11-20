@@ -8,8 +8,7 @@
 	<link href="https://fonts.googleapis.com/css?family=Open+Sans|Roboto+Slab" rel="stylesheet">
 	<link rel="stylesheet" type="text/css" href="./js/slick/slick-theme.css"/>
 	<link rel="stylesheet" type="text/css" href="./js/slick/slick.css"/>
-	<link rel="stylesheet" href="./css/app.css">
-	<link rel="stylesheet" href="./js/iziModal/iziModal.min.css">	
+	<link rel="stylesheet" href="./css/app.css">	
 	<link rel="shortcut icon" href="./images/favicon.ico" type="image/x-icon">
 	<link rel="icon" href="./images/favicon.ico" type="image/x-icon">
 	<!-- <script src="./js/synaptic.js"></script> -->
@@ -22,7 +21,7 @@
 				<ul class="menu">
 					<li class="menu-text">
 						<a class="header-logo" href="/">
-							<img src="./images/NoQueue_logo.png" alt="NoQueue">
+							<img src="./images/NoQueue_logo.png" alt="NoQueue">														
 						</a>
 					</li>
 				</ul>
